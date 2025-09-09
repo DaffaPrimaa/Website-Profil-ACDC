@@ -25,13 +25,17 @@ jobs:
         id: vercel_deploy
         run: |
           echo "Deploying to Vercel..."
+          # Matikan telemetry agar output bersih
+          export NOW_TELEMETRY_DISABLED=1
+
           if [ "${GITHUB_REF##*/}" = "main" ]; then
             # Deploy ke production
-            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1)
+            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --output=plain)
           else
             # Deploy ke preview untuk branch lain
-            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1)
+            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm --output=plain)
           fi
+
           echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
