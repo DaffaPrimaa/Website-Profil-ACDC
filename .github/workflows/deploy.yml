@@ -25,16 +25,35 @@ jobs:
         id: vercel_deploy
         run: |
           echo "Deploying to Vercel..."
+          
+          # Set deployment command based on branch
           if [ "${GITHUB_REF##*/}" = "main" ]; then
-            # Deploy production, filter pesan info
-            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 | grep -v "^> NOTE")
+            echo "Deploying to production..."
+            DEPLOY_OUTPUT=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1)
           else
-            # Deploy preview untuk branch lain, filter pesan info
-            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 | grep -v "^> NOTE")
+            echo "Deploying preview for branch: ${GITHUB_REF##*/}"
+            DEPLOY_OUTPUT=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1)
           fi
-          # Pastikan hanya URL yang valid yang ditulis ke $GITHUB_OUTPUT
-          DEPLOY_URL_CLEAN=$(echo "$DEPLOY_URL" | grep -Eo 'https://[a-zA-Z0-9./?=_-]*')
-          echo "deploy-url=$DEPLOY_URL_CLEAN" >> $GITHUB_OUTPUT
+          
+          # Extract URL from output - Vercel typically outputs the URL at the end
+          DEPLOY_URL=$(echo "$DEPLOY_OUTPUT" | grep -E "https://.*\.vercel\.app" | tail -1 | tr -d '[:space:]')
+          
+          # Fallback: try to extract any https URL if the above doesn't work
+          if [ -z "$DEPLOY_URL" ]; then
+            DEPLOY_URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https://[a-zA-Z0-9.-]+\.vercel\.app[a-zA-Z0-9./?=_-]*" | head -1)
+          fi
+          
+          # Validate URL format
+          if [[ "$DEPLOY_URL" =~ ^https://.*\.vercel\.app.* ]]; then
+            echo "✅ Deployment successful!"
+            echo "🌐 URL: $DEPLOY_URL"
+            echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Failed to extract valid deployment URL"
+            echo "Raw output:"
+            echo "$DEPLOY_OUTPUT"
+            exit 1
+          fi
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
@@ -45,12 +64,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Wait for deployment
+        run: |
+          echo "Waiting 30 seconds for deployment to be ready..."
+          sleep 30
+
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli
 
       - name: Run Lighthouse CI
         run: |
-          echo "Running Lighthouse on deployed URL..."
-          lhci collect --url="${{ needs.deploy.outputs.deploy-url }}" || true
-          lhci assert || true
-          lhci upload || true
+          DEPLOY_URL="${{ needs.deploy.outputs.deploy-url }}"
+          echo "🔍 Running Lighthouse audit on: $DEPLOY_URL"
+          
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "❌ No deployment URL available"
+            exit 1
+          fi
+          
+          # Test if URL is accessible
+          if curl -f -s "$DEPLOY_URL" > /dev/null; then
+            echo "✅ URL is accessible, running Lighthouse..."
+            lhci collect --url="$DEPLOY_URL" || echo "⚠️ Lighthouse collect failed"
+            lhci assert || echo "⚠️ Lighthouse assertions failed"
+            lhci upload || echo "⚠️ Lighthouse upload failed"
+          else
+            echo "❌ URL is not accessible yet"
+            exit 1
+          fi
