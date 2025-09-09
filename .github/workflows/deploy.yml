@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - daffa
 
 jobs:
   deploy:
@@ -24,9 +25,16 @@ jobs:
         id: vercel_deploy
         run: |
           echo "Deploying to Vercel..."
-          # Deploy ke Vercel, filter note supaya tidak mengacaukan $GITHUB_OUTPUT
-          DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 | grep -v "NOTE: The Vercel CLI now collects telemetry")
-          echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          if [ "${GITHUB_REF##*/}" = "main" ]; then
+            # Deploy production, filter pesan info
+            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 | grep -v "^> NOTE")
+          else
+            # Deploy preview untuk branch lain, filter pesan info
+            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 | grep -v "^> NOTE")
+          fi
+          # Pastikan hanya URL yang valid yang ditulis ke $GITHUB_OUTPUT
+          DEPLOY_URL_CLEAN=$(echo "$DEPLOY_URL" | grep -Eo 'https://[a-zA-Z0-9./?=_-]*')
+          echo "deploy-url=$DEPLOY_URL_CLEAN" >> $GITHUB_OUTPUT
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
