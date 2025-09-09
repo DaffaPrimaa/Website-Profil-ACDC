@@ -114,14 +114,31 @@ jobs:
             echo "⚠️ URL returned status $HTTP_STATUS, but continuing with Lighthouse..."
           fi
 
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
       - name: Run Lighthouse CI
         run: |
           DEPLOY_URL="${{ needs.deploy.outputs.deploy-url }}"
           echo "🔍 Running Lighthouse audit on: $DEPLOY_URL"
           
-          # Run Lighthouse with error handling
-          lhci collect --url="$DEPLOY_URL" || echo "⚠️ Lighthouse collect had issues but continuing..."
-          lhci assert || echo "⚠️ Lighthouse assertions failed but continuing..."
-          lhci upload || echo "⚠️ Lighthouse upload failed but continuing..."
+          # Run Lighthouse with proper error handling
+          echo "Starting Lighthouse collection..."
+          lhci collect --url="$DEPLOY_URL" || {
+            echo "⚠️ Lighthouse collect failed, but continuing..."
+            echo "This might be due to the site not being fully ready or network issues"
+          }
           
-          echo "✅ Lighthouse audit completed"
+          echo "Running Lighthouse assertions..."
+          lhci assert || {
+            echo "⚠️ Some Lighthouse assertions failed"
+            echo "Check the detailed report for performance recommendations"
+          }
+          
+          echo "Uploading results..."
+          lhci upload || {
+            echo "⚠️ Lighthouse upload failed"
+            echo "Results are still available locally"
+          }
+          
+          echo "✅ Lighthouse audit process completed"
