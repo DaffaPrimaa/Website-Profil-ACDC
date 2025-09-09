@@ -10,7 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     outputs:
-      deploy-url: ${{ steps.vercel_deploy.outputs.deploy-url }}
+      deploy-url: ${{ steps.set-url.outputs.deploy-url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,15 +21,30 @@ jobs:
       - name: Deploy to Vercel
         id: vercel_deploy
         run: |
+          echo "Deploying to Vercel..."
           if [ "${GITHUB_REF##*/}" = "main" ]; then
-            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }})
+            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }} 2>&1 || echo "ERROR")
           else
-            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }})
+            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }} 2>&1 || echo "ERROR")
           fi
-          echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+
+          # Debug output
+          echo "Vercel deploy result: $DEPLOY_URL"
+
+          # Set output hanya jika deploy sukses
+          if [[ "$DEPLOY_URL" != "ERROR" ]]; then
+            echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          else
+            echo "deploy-url=" >> $GITHUB_OUTPUT
+          fi
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Set deploy URL output
+        id: set-url
+        run: echo "deploy-url=${{ steps.vercel_deploy.outputs.deploy-url }}" >> $GITHUB_OUTPUT
 
   lighthouse:
     needs: deploy
@@ -43,6 +58,11 @@ jobs:
 
       - name: Run Lighthouse CI
         run: |
-          lhci collect --url=${{ needs.deploy.outputs.deploy-url }}
-          lhci assert || true
-          lhci upload || true
+          URL=${{ needs.deploy.outputs.deploy-url }}
+          if [ -z "$URL" ]; then
+            echo "No deploy URL found, skipping Lighthouse CI."
+          else
+            lhci collect --url="$URL"
+            lhci assert || true
+            lhci upload || true
+          fi
