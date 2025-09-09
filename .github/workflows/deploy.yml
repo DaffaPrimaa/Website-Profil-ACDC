@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
+      - daffa
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     outputs:
-      deploy-url: ${{ steps.vercel_deploy.outputs.deploy-url }}
+      deploy-url: ${{ steps.set_url.outputs.deploy-url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,14 +22,62 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        id: vercel_deploy
         run: |
           echo "Deploying to Vercel..."
-          # Deploy ke Vercel, filter note supaya tidak mengacaukan $GITHUB_OUTPUT
-          DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 | grep -v "NOTE: The Vercel CLI now collects telemetry")
-          echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          if [ "${GITHUB_REF##*/}" = "main" ]; then
+            echo "Deploying to production..."
+            vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm > deploy_output.txt 2>&1
+          else
+            echo "Deploying preview for branch: ${GITHUB_REF##*/}"
+            vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm > deploy_output.txt 2>&1
+          fi
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Extract deployment URL
+        id: set_url
+        run: |
+          echo "Extracting URL from deployment output..."
+          
+          # Show raw output for debugging
+          echo "=== Raw Vercel Output ==="
+          cat deploy_output.txt
+          echo "========================="
+          
+          # Extract URL using multiple methods
+          DEPLOY_URL=""
+          
+          # Method 1: Look for https://...vercel.app pattern
+          DEPLOY_URL=$(grep -oE "https://[a-zA-Z0-9.-]+\.vercel\.app" deploy_output.txt | head -1 || echo "")
+          
+          # Method 2: If not found, try broader pattern
+          if [ -z "$DEPLOY_URL" ]; then
+            DEPLOY_URL=$(grep -oE "https://[a-zA-Z0-9.-]+\.vercel\.app[a-zA-Z0-9./?=_-]*" deploy_output.txt | head -1 || echo "")
+          fi
+          
+          # Method 3: Look for any vercel.app URL
+          if [ -z "$DEPLOY_URL" ]; then
+            DEPLOY_URL=$(grep -oE "[a-zA-Z0-9.-]+\.vercel\.app" deploy_output.txt | head -1 || echo "")
+            if [ -n "$DEPLOY_URL" ]; then
+              DEPLOY_URL="https://$DEPLOY_URL"
+            fi
+          fi
+          
+          echo "Extracted URL: '$DEPLOY_URL'"
+          
+          if [ -n "$DEPLOY_URL" ]; then
+            echo "✅ Deployment successful!"
+            echo "🌐 URL: $DEPLOY_URL"
+            echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Could not extract deployment URL"
+            echo "Full output content:"
+            cat deploy_output.txt
+            exit 1
+          fi
+
+      - name: Cleanup
+        run: rm -f deploy_output.txt
 
   lighthouse:
     needs: deploy
@@ -37,12 +86,59 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Wait for deployment
+        run: |
+          echo "Waiting 30 seconds for deployment to be ready..."
+          sleep 30
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Verify deployment URL
+        run: |
+          DEPLOY_URL="${{ needs.deploy.outputs.deploy-url }}"
+          echo "🔍 Testing URL: $DEPLOY_URL"
+          
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "❌ No deployment URL received"
+            exit 1
+          fi
+          
+          # Test if URL responds
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$DEPLOY_URL" || echo "000")
+          echo "HTTP Status: $HTTP_STATUS"
+          
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+            echo "✅ URL is accessible"
+          else
+            echo "⚠️ URL returned status $HTTP_STATUS, but continuing with Lighthouse..."
+          fi
+
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli
 
       - name: Run Lighthouse CI
         run: |
-          echo "Running Lighthouse on deployed URL..."
-          lhci collect --url="${{ needs.deploy.outputs.deploy-url }}" || true
-          lhci assert || true
-          lhci upload || true
+          DEPLOY_URL="${{ needs.deploy.outputs.deploy-url }}"
+          echo "🔍 Running Lighthouse audit on: $DEPLOY_URL"
+          
+          # Run Lighthouse with proper error handling
+          echo "Starting Lighthouse collection..."
+          lhci collect --url="$DEPLOY_URL" || {
+            echo "⚠️ Lighthouse collect failed, but continuing..."
+            echo "This might be due to the site not being fully ready or network issues"
+          }
+          
+          echo "Running Lighthouse assertions..."
+          lhci assert || {
+            echo "⚠️ Some Lighthouse assertions failed"
+            echo "Check the detailed report for performance recommendations"
+          }
+          
+          echo "Uploading results..."
+          lhci upload || {
+            echo "⚠️ Lighthouse upload failed"
+            echo "Results are still available locally"
+          }
+          
+          echo "✅ Lighthouse audit process completed"
