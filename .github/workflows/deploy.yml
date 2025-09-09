@@ -24,8 +24,8 @@ jobs:
         id: vercel_deploy
         run: |
           echo "Deploying to Vercel..."
-          # Deploy ke Vercel
-          DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 || true)
+          # Deploy ke Vercel, filter note supaya tidak mengacaukan $GITHUB_OUTPUT
+          DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 | grep -v "NOTE: The Vercel CLI now collects telemetry")
           echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
