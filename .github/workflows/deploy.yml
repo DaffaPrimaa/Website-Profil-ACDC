@@ -1,53 +1,28 @@
-name: Deploy & Audit Website
+name: Deploy to Vercel
 
 on:
   push:
     branches:
       - main
-      - daffa
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    outputs:
-      deploy-url: ${{ steps.vercel_deploy.outputs.deploy-url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Install Vercel CLI
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        id: vercel_deploy
-        run: |
-          echo "Deploying to Vercel..."
-          if [ "${GITHUB_REF##*/}" = "main" ]; then
-            vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} || true
-          else
-            vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} || true
-          fi
-          
-          # Ambil URL terbaru dari Vercel
-          DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} list --limit 1 --scope ${{ secrets.VERCEL_ORG_ID }} --prod --json | jq -r '.[0].url')
-          echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
-  lighthouse:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Run Lighthouse CI
-        run: |
-          echo "Running Lighthouse CI on ${{ needs.deploy.outputs.deploy-url }}"
-          lhci collect --url="${{ needs.deploy.outputs.deploy-url }}"
-          lhci assert || true
-          lhci upload || true
+        run: npx lhci autorun
