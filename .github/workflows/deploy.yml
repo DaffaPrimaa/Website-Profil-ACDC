@@ -23,10 +23,13 @@ jobs:
         run: |
           echo "Deploying to Vercel..."
           if [ "${GITHUB_REF##*/}" = "main" ]; then
-            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} 2>&1)
+            vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} || true
           else
-            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} 2>&1)
+            vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} || true
           fi
+          
+          # Ambil URL terbaru dari Vercel
+          DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} list --limit 1 --scope ${{ secrets.VERCEL_ORG_ID }} --prod --json | jq -r '.[0].url')
           echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
