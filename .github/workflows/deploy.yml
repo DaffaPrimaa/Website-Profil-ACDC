@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - daffa
 
 jobs:
   deploy:
@@ -20,7 +21,11 @@ jobs:
       - name: Deploy to Vercel
         id: vercel_deploy
         run: |
-          DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }})
+          if [ "${GITHUB_REF##*/}" = "main" ]; then
+            DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }})
+          else
+            DEPLOY_URL=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm --scope ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }})
+          fi
           echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -41,9 +46,3 @@ jobs:
           lhci collect --url=${{ needs.deploy.outputs.deploy-url }}
           lhci assert || true
           lhci upload || true
-
-      - name: Upload Lighthouse Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: lighthouse-report
-          path: ".lighthouseci"
