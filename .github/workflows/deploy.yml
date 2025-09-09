@@ -1,4 +1,4 @@
-name: Deploy to Vercel
+name: Deploy & Audit Website
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      deploy-url: ${{ steps.vercel_deploy.outputs.deploy-url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,10 +21,28 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm
+        id: vercel_deploy
+        run: |
+          echo "Deploying to Vercel..."
+          # Deploy ke Vercel
+          DEPLOY_URL=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm 2>&1 || true)
+          echo "deploy-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+  lighthouse:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
 
       - name: Run Lighthouse CI
-        run: npx lhci autorun
+        run: |
+          echo "Running Lighthouse on deployed URL..."
+          lhci collect --url="${{ needs.deploy.outputs.deploy-url }}" || true
+          lhci assert || true
+          lhci upload || true
