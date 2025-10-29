@@ -126,6 +126,11 @@
               >Beranda</a
             >
             <a
+              href="#profil"
+              class="text-gray-800 hover:text-primary transition duration-300 font-medium focus-visible"
+              >Profil</a
+            >
+            <a
               href="#services"
               class="text-gray-800 hover:text-primary transition duration-300 font-medium focus-visible"
               >Layanan</a
@@ -133,12 +138,12 @@
             <a
               href="#hours"
               class="text-gray-800 hover:text-primary transition duration-300 font-medium focus-visible"
-              >Jam Operasi</a
+              >Jam Operasional</a
             >
             <a
-              href="#contact"
+              href="#galeri"
               class="text-gray-800 hover:text-primary transition duration-300 font-medium focus-visible"
-              >Kontak</a
+              >Galeri</a
             >
           </div>
 
@@ -162,6 +167,12 @@
               >Beranda</a
             >
             <a
+              href="#profil"
+              class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-primary-lighter hover:text-white transition duration-300 focus-visible"
+              aria-current="page"
+              >Profil</a
+            >
+            <a
               href="#services"
               class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-primary-lighter hover:text-white transition duration-300 focus-visible"
               >Layanan</a
@@ -172,9 +183,9 @@
               >Jam Operasi</a
             >
             <a
-              href="#contact"
+              href="#galeri"
               class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-primary-lighter hover:text-white transition duration-300 focus-visible"
-              >Kontak</a
+              >Galeri</a
             >
           </div>
         </div>
@@ -217,8 +228,137 @@
         </div>
       </section>
 
-      <!-- Bagian Layanan -->
-      <section id="services" class="py-20 bg-white">
+      <!-- Bagian Profil Dokter -->
+      <section id="profil" class="py-12" style="background-color: #eff6ff">
+        <div class="container mx-auto px-4 lg:px-6">
+          <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">
+              Profil Dokter
+            </h2>
+            <p class="text-gray-600 text-base max-w-xl mx-auto leading-relaxed">
+              Kenali tenaga ahli kami yang berdedikasi untuk kesehatan dan
+              keindahan senyum Anda
+            </p>
+          </div>
+
+          <div class="max-w-6xl mx-auto">
+            <div
+              class="flex flex-col lg:flex-row items-center bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-100 transform transition-all duration-500 hover:shadow-2xl"
+            >
+              <div
+                class="hidden lg:block lg:w-2/5 w-full relative overflow-hidden"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/10 z-10"
+                ></div>
+                <img
+                  src="/images/Profil-dokter.png"
+                  alt="drg. Winarno Priyanto"
+                  class="w-full h-72 lg:h-full object-cover transform transition-all duration-700 hover:scale-105"
+                />
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 z-20"
+                >
+                  <h3 class="text-lg font-bold text-white">
+                    drg. Winarno Priyanto
+                  </h3>
+                  <p class="text-blue-200 text-sm">Dokter Bedah Mulut</p>
+                </div>
+              </div>
+
+              <div class="lg:w-3/5 w-full p-6 lg:p-8">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                  drg. Winarno Priyanto, Sp.BMM, Subsp.C.O.M (K)
+                </h3>
+                <div
+                  class="flex items-center text-secondary font-semibold mb-3"
+                >
+                  <i class="fas fa-stethoscope mr-2"></i>
+                  <span>Dokter Bedah Mulut</span>
+                </div>
+
+                <div class="flex flex-wrap gap-2 mb-5">
+                  <span
+                    class="bg-blue-100 text-primary text-sm px-3 py-1 rounded-full"
+                    >Bedah Mulut</span
+                  >
+                  <span
+                    class="bg-blue-100 text-primary text-sm px-3 py-1 rounded-full"
+                    >Konsultan</span
+                  >
+                  <span
+                    class="bg-blue-100 text-primary text-sm px-3 py-1 rounded-full"
+                    >Bedah Maksilofasial</span
+                  >
+                </div>
+
+                <div class="space-y-4 text-gray-700">
+                  <div
+                    class="bg-blue-50 p-3 rounded-xl border-l-4 border-primary"
+                  >
+                    <h4 class="font-bold text-gray-800 mb-1 flex items-center">
+                      <i class="fas fa-user-md text-primary mr-2"></i> Profil
+                      Dokter
+                    </h4>
+                    <p class="text-sm leading-relaxed">
+                      drg. Winarno Priyanto adalah Dokter Bedah Mulut Konsultan
+                      Bedah Celah Oral dan Maksilofasial lulusan Universitas
+                      Padjadjaran.
+                    </p>
+                  </div>
+
+                  <div
+                    class="bg-blue-50 p-3 rounded-xl border-l-4 border-secondary"
+                  >
+                    <h4 class="font-bold text-gray-800 mb-1 flex items-center">
+                      <i
+                        class="fas fa-hand-holding-medical text-secondary mr-2"
+                      ></i>
+                      Layanan & Keahlian
+                    </h4>
+                    <p class="text-sm leading-relaxed">
+                      Anggota Persatuan Ahli Bedah Mulut dan Maksilofasial
+                      Indonesia (PABMI). Menyediakan konsultasi kesehatan
+                      pra-tindakan bedah.
+                    </p>
+                  </div>
+
+                  <div
+                    class="bg-blue-50 p-3 rounded-xl border-l-4 border-accent"
+                  >
+                    <h4 class="font-bold text-gray-800 mb-1 flex items-center">
+                      <i class="fas fa-graduation-cap text-accent mr-2"></i>
+                      Riwayat Pendidikan
+                    </h4>
+                    <p class="text-sm leading-relaxed">
+                      Sp.BM – Spesialis Bedah Mulut dan Maksilofasial –
+                      Universitas Padjadjaran
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="mt-6 pt-4 border-t border-gray-200 flex flex-wrap gap-3 text-sm"
+                >
+                  <div class="flex items-center text-gray-600">
+                    <i class="fas fa-calendar-check text-primary mr-2"></i>
+                    <span>15+ Tahun Pengalaman</span>
+                  </div>
+                  <div class="flex items-center text-gray-600">
+                    <i class="fas fa-award text-primary mr-2"></i>
+                    <span>Spesialis Bedah Mulut</span>
+                  </div>
+                  <div class="flex items-center text-gray-600">
+                    <i class="fas fa-users text-primary mr-2"></i>
+                    <span>Anggota PABMI</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="services" class="py-20" style="background-color: #eff6ff">
         <div class="container mx-auto px-4">
           <div class="text-center mb-16">
             <h2 class="text-3xl font-bold text-primary mb-4">Layanan Kami</h2>
@@ -228,7 +368,6 @@
           </div>
 
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Kosmetik Gigi -->
             <div
               class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 transform hover:-translate-y-1"
             >
@@ -238,19 +377,12 @@
               <h3 class="text-xl font-bold text-gray-800 mb-4">
                 Kosmetik Gigi
               </h3>
-              <p class="text-gray-600 mb-6">
+              <p class="text-gray-600">
                 Raih senyuman sempurna dengan perawatan kosmetik termasuk
                 veneer, pemutihan, dan perbaikan senyuman.
               </p>
-              <button
-                class="text-primary hover:text-primary-light transition duration-300 font-semibold flex items-center focus-visible"
-              >
-                SELENGKAPNYA
-                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-              </button>
             </div>
 
-            <!-- Ortodontik -->
             <div
               class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 transform hover:-translate-y-1"
             >
@@ -258,19 +390,12 @@
                 <i class="fas fa-teeth-open text-4xl" aria-hidden="true"></i>
               </div>
               <h3 class="text-xl font-bold text-gray-800 mb-4">Ortodontik</h3>
-              <p class="text-gray-600 mb-6">
+              <p class="text-gray-600">
                 Kawat gigi modern dan aligner untuk merapikan gigi Anda dengan
                 nyaman dan tidak mencolok.
               </p>
-              <button
-                class="text-primary hover:text-primary-light transition duration-300 font-semibold flex items-center focus-visible"
-              >
-                SELENGKAPNYA
-                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-              </button>
             </div>
 
-            <!-- Implan Gigi -->
             <div
               class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 transform hover:-translate-y-1"
             >
@@ -278,19 +403,12 @@
                 <i class="fas fa-teeth text-4xl" aria-hidden="true"></i>
               </div>
               <h3 class="text-xl font-bold text-gray-800 mb-4">Implan Gigi</h3>
-              <p class="text-gray-600 mb-6">
+              <p class="text-gray-600">
                 Solusi permanen untuk gigi yang hilang yang terlihat, terasa,
                 dan berfungsi seperti gigi asli.
               </p>
-              <button
-                class="text-primary hover:text-primary-light transition duration-300 font-semibold flex items-center focus-visible"
-              >
-                SELENGKAPNYA
-                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-              </button>
             </div>
 
-            <!-- Perawatan Anak -->
             <div
               class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 transform hover:-translate-y-1"
             >
@@ -300,19 +418,12 @@
               <h3 class="text-xl font-bold text-gray-800 mb-4">
                 Perawatan Gigi Anak
               </h3>
-              <p class="text-gray-600 mb-6">
+              <p class="text-gray-600">
                 Perawatan gigi lembut yang dirancang khusus untuk kebutuhan unik
                 anak-anak.
               </p>
-              <button
-                class="text-primary hover:text-primary-light transition duration-300 font-semibold flex items-center focus-visible"
-              >
-                SELENGKAPNYA
-                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-              </button>
             </div>
 
-            <!-- Perawatan Pencegahan -->
             <div
               class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 transform hover:-translate-y-1"
             >
@@ -322,19 +433,12 @@
               <h3 class="text-xl font-bold text-gray-800 mb-4">
                 Perawatan Pencegahan
               </h3>
-              <p class="text-gray-600 mb-6">
+              <p class="text-gray-600">
                 Pemeriksaan rutin dan pembersihan untuk menjaga kesehatan mulut
                 yang optimal dan mencegah masalah.
               </p>
-              <button
-                class="text-primary hover:text-primary-light transition duration-300 font-semibold flex items-center focus-visible"
-              >
-                SELENGKAPNYA
-                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-              </button>
             </div>
 
-            <!-- Perawatan Restoratif -->
             <div
               class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 transform hover:-translate-y-1"
             >
@@ -344,137 +448,226 @@
               <h3 class="text-xl font-bold text-gray-800 mb-4">
                 Perawatan Restoratif
               </h3>
-              <p class="text-gray-600 mb-6">
+              <p class="text-gray-600">
                 Perbaikan gigi yang rusak dengan mahkota, jembatan, tambalan,
                 dan perawatan restoratif lainnya.
               </p>
-              <button
-                class="text-primary hover:text-primary-light transition duration-300 font-semibold flex items-center focus-visible"
-              >
-                SELENGKAPNYA
-                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-              </button>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Bagian Jam Operasi -->
-      <section id="hours" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4">
+      <!-- Bagian Jam Operasional -->
+      <section id="hours" class="py-20" style="background-color: #eff6ff">
+        <div class="container mx-auto px-6">
           <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-primary mb-4">
+            <h2 class="text-3xl font-bold text-[#2963b9] mb-3">
               Jam Operasional
             </h2>
             <p class="text-gray-600 max-w-2xl mx-auto">
-              Kami siap melayani Anda
+              Kami siap melayani Anda dengan pelayanan terbaik.
             </p>
           </div>
 
-          <div class="max-w-4xl mx-auto">
-            <div class="hours-card rounded-2xl shadow-lg overflow-hidden">
-              <div class="grid md:grid-cols-2">
-                <div class="p-10 bg-primary text-white">
-                  <h3 class="text-2xl font-bold mb-6">Hubungi Kami</h3>
-                  <div class="space-y-2">
-                    <div class="flex items-center">
-                      <i
-                        class="fas fa-phone-alt mr-4 text-accent"
-                        aria-hidden="true"
-                      ></i>
-                      <a
-                        href="https://wa.me/6282121487959"
-                        target="_blank"
-                        class="hover:underline focus-visible"
-                        >+62 821-2148-7959</a
-                      >
-                    </div>
-                    <div class="flex items-center">
-                      <i
-                        class="fas fa-envelope mr-4 text-accent"
-                        aria-hidden="true"
-                      ></i>
-                      <a
-                        href="mailto:artandcosmeticdentalclinic@gmail.com"
-                        class="hover:underline focus-visible"
-                        >artandcosmeticdentalclinic@gmail.com</a
-                      >
-                    </div>
-                    <div class="flex items-start">
-                      <i
-                        class="fas fa-map-marker-alt mr-4 mt-1 text-accent"
-                        aria-hidden="true"
-                      ></i>
-                      <a
-                        href="https://maps.app.goo.gl/W1yEVMKcdnSpHbSY6"
-                        target="_blank"
-                        class="hover:underline focus-visible"
-                      >
-                        Jl. Pasir Salam Asri No.7B Blok D, Pasirluyu, Kec.
-                        Regol, Kota Bandung, Jawa Barat 40254
-                      </a>
-                    </div>
-                  </div>
+          <div
+            class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-stretch"
+          >
+            <!-- KIRI: JAM BUKA -->
+            <div
+              class="bg-gradient-to-br from-[#2963b9] to-[#4a88e2] text-white rounded-3xl shadow-2xl p-10 border border-blue-200 flex flex-col justify-center"
+            >
+              <h3 class="text-2xl font-bold mb-8 text-center">Jam Buka</h3>
+              <div class="space-y-4 text-lg">
+                <div class="flex justify-between border-b border-white/20 pb-2">
+                  <span>Senin</span
+                  ><span class="font-semibold">16.30–selesai</span>
                 </div>
-                <div class="p-10 bg-white">
-                  <h3 class="text-2xl font-bold text-primary mb-6">Jam Buka</h3>
-                  <div class="space-y-4">
-                    <div
-                      class="flex justify-between items-center pb-4 border-b border-gray-200"
-                    >
-                      <span class="text-gray-600">Senin</span>
-                      <span class="font-semibold text-primary"
-                        >16.30–selesai</span
-                      >
-                    </div>
-                    <div
-                      class="flex justify-between items-center pb-4 border-b border-gray-200"
-                    >
-                      <span class="text-gray-600">Selasa</span>
-                      <span class="font-semibold text-primary"
-                        >16.30–selesai</span
-                      >
-                    </div>
-                    <div
-                      class="flex justify-between items-center pb-4 border-b border-gray-200"
-                    >
-                      <span class="text-gray-600">Rabu</span>
-                      <span class="font-semibold text-primary"
-                        >16.30–selesai</span
-                      >
-                    </div>
-                    <div
-                      class="flex justify-between items-center pb-4 border-b border-gray-200"
-                    >
-                      <span class="text-gray-600">Kamis</span>
-                      <span class="font-semibold text-primary"
-                        >Dengan perjanjian</span
-                      >
-                    </div>
-                    <div
-                      class="flex justify-between items-center pb-4 border-b border-gray-200"
-                    >
-                      <span class="text-gray-600">Jumat</span>
-                      <span class="font-semibold text-primary"
-                        >16.30–20.00</span
-                      >
-                    </div>
-                    <div
-                      class="flex justify-between items-center pb-4 border-b border-gray-200"
-                    >
-                      <span class="text-gray-600">Sabtu</span>
-                      <span class="font-semibold text-primary"
-                        >Dengan perjanjian</span
-                      >
-                    </div>
-                    <div class="flex justify-between items-center">
-                      <span class="text-gray-600">Minggu</span>
-                      <span class="font-semibold text-primary"
-                        >Dengan perjanjian</span
-                      >
-                    </div>
-                  </div>
+                <div class="flex justify-between border-b border-white/20 pb-2">
+                  <span>Selasa</span
+                  ><span class="font-semibold">16.30–selesai</span>
                 </div>
+                <div class="flex justify-between border-b border-white/20 pb-2">
+                  <span>Rabu</span
+                  ><span class="font-semibold">16.30–selesai</span>
+                </div>
+                <div class="flex justify-between border-b border-white/20 pb-2">
+                  <span>Kamis</span
+                  ><span class="font-semibold">Dengan perjanjian</span>
+                </div>
+                <div class="flex justify-between border-b border-white/20 pb-2">
+                  <span>Jumat</span
+                  ><span class="font-semibold">16.30–20.00</span>
+                </div>
+                <div class="flex justify-between border-b border-white/20 pb-2">
+                  <span>Sabtu</span
+                  ><span class="font-semibold">Dengan perjanjian</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Minggu</span
+                  ><span class="font-semibold">Dengan perjanjian</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- KANAN: FOTO + LOKASI (dengan frame seperti kiri) -->
+            <div
+              class="bg-gradient-to-br from-[#2963b9] to-[#4a88e2] rounded-3xl shadow-2xl p-8 border border-blue-200 flex flex-col items-center text-white"
+            >
+              <!-- SLIDER FOTO -->
+              <div
+                class="relative w-full max-w-md rounded-2xl overflow-hidden shadow-xl border border-blue-200"
+              >
+                <img
+                  id="clinic-photo"
+                  src="/images/foto-dalam.png"
+                  alt="Foto Klinik"
+                  class="w-full h-80 object-cover transition-opacity duration-700 ease-in-out opacity-100"
+                />
+
+                <!-- Tombol Navigasi -->
+                <button
+                  onclick="changePhoto(-1)"
+                  class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full transition"
+                >
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button
+                  onclick="changePhoto(1)"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full transition"
+                >
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+
+              <!-- LOKASI -->
+              <div class="mt-8 text-center">
+                <a
+                  href="https://maps.app.goo.gl/W1yEVMKcdnSpHbSY6"
+                  target="_blank"
+                  class="text-white hover:text-[#1e3a8a] transition duration-300 focus-visible"
+                >
+                  Jl. Pasir Salam Asri No.7B Blok D, Pasirluyu, Kec. Regol, Kota
+                  Bandung
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Bagian Galeri Klinik -->
+      <section id="galeri" class="py-20 bg-blue-50">
+        <div class="container mx-auto px-6">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-primary mb-4">Galeri Klinik</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Menghadirkan suasana nyaman dan profesional untuk setiap pasien
+              kami.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div
+              class="relative rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+            >
+              <img
+                src="/images/gallery-1.jpeg"
+                alt="Ruang Perawatan"
+                class="w-full h-72 object-cover"
+              />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent"
+              >
+                <h3 class="font-bold text-lg mb-1 text-white">
+                  Ruang Perawatan
+                </h3>
+                <p class="text-white/80 text-sm">
+                  Didesain modern untuk kenyamanan pasien.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="relative rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+            >
+              <img
+                src="/images/gallery-2.jpeg"
+                alt="Peralatan Modern"
+                class="w-full h-72 object-cover"
+              />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent"
+              >
+                <h3 class="font-bold text-lg mb-1 text-white">
+                  Peralatan Modern
+                </h3>
+              </div>
+            </div>
+
+            <div
+              class="relative rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+            >
+              <img
+                src="/images/gallery-3.jpeg"
+                alt="Tim Profesional"
+                class="w-full h-72 object-cover"
+              />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent"
+              >
+                <h3 class="font-bold text-lg mb-1 text-white">
+                  Tim Profesional
+                </h3>
+              </div>
+            </div>
+
+            <div
+              class="relative rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+            >
+              <img
+                src="/images/gallery-4.jpeg"
+                alt="Ruang Tunggu Nyaman"
+                class="w-full h-72 object-cover"
+              />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent"
+              >
+                <h3 class="font-bold text-lg mb-1 text-white">
+                  Ruang Tunggu Nyaman
+                </h3>
+              </div>
+            </div>
+
+            <div
+              class="relative rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+            >
+              <img
+                src="/images/gallery-5.jpg"
+                alt="Pelayanan Ramah"
+                class="w-full h-72 object-cover"
+              />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent"
+              >
+                <h3 class="font-bold text-lg mb-1 text-white">
+                  Pelayanan Ramah
+                </h3>
+              </div>
+            </div>
+
+            <div
+              class="relative rounded-2xl overflow-hidden shadow-xl transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+            >
+              <img
+                src="/images/gallery-6.jpg"
+                alt="Sterilisasi Alat"
+                class="w-full h-72 object-cover"
+              />
+              <div
+                class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent"
+              >
+                <h3 class="font-bold text-lg mb-1 text-white">
+                  Sterilisasi Alat
+                </h3>
               </div>
             </div>
           </div>
@@ -507,25 +700,21 @@
             </p>
             <div class="flex space-x-4 justify-center md:justify-start">
               <a
-                href="#"
-                class="text-white hover:text-[#1e3a8a] transition duration-300 focus-visible"
-                aria-label="Facebook"
-              >
-                <i class="fab fa-facebook-f text-xl"></i>
-              </a>
-              <a
-                href="#"
-                class="text-white hover:text-[#1e3a8a] transition duration-300 focus-visible"
+                href="https://www.instagram.com/artandcosmeticdental/"
+                target="_blank"
+                class="text-white hover:text-accent-light transition duration-300 focus-visible"
                 aria-label="Instagram"
               >
                 <i class="fab fa-instagram text-xl"></i>
               </a>
+
               <a
-                href="#"
-                class="text-white hover:text-[#1e3a8a] transition duration-300 focus-visible"
-                aria-label="Twitter"
+                href="https://wa.me/6282121487959"
+                target="_blank"
+                class="text-white hover:text-accent-light transition duration-300 focus-visible"
+                aria-label="WhatsApp"
               >
-                <i class="fab fa-twitter text-xl"></i>
+                <i class="fab fa-whatsapp text-xl"></i>
               </a>
             </div>
           </div>
@@ -540,6 +729,11 @@
                 >Beranda</a
               >
               <a
+                href="#profil"
+                class="text-white hover:text-[#1e3a8a] transition duration-300 block focus-visible"
+                >Profil</a
+              >
+              <a
                 href="#services"
                 class="text-white hover:text-[#1e3a8a] transition duration-300 block focus-visible"
                 >Layanan</a
@@ -550,9 +744,9 @@
                 >Jam Operasi</a
               >
               <a
-                href="#contact"
+                href="#galeri"
                 class="text-white hover:text-[#1e3a8a] transition duration-300 block focus-visible"
-                >Kontak</a
+                >galeri</a
               >
             </div>
           </div>
@@ -577,7 +771,7 @@
               </div>
               <div class="flex items-center justify-center md:justify-start">
                 <i
-                  class="fas fa-phone-alt mr-4 text-white opacity-80"
+                  class="fab fa-whatsapp text-xl mr-3 text-white opacity-80"
                   aria-hidden="true"
                 ></i>
                 <a
@@ -611,6 +805,10 @@
     </footer>
 
     <script>
+      /* TIGA BARIS KODE BERMASALAH (gallery-slider, gallery-prev, gallery-next) 
+    TELAH DIHAPUS DARI SINI. 
+  */
+
       // Toggle menu mobile
       const menuToggle = document.getElementById("menu-toggle");
       const mobileMenu = document.getElementById("mobile-menu");
@@ -650,6 +848,25 @@
           nav.classList.remove("nav-shadow");
         }
       });
+
+      // Slider Foto Klinik dengan efek fade (KODE INI SEKARANG AKAN BERJALAN)
+      const photos = ["/images/foto-dalam.png", "/images/foto-luar.png"];
+      let currentPhoto = 0;
+      const photoElement = document.getElementById("clinic-photo");
+
+      function changePhoto(direction) {
+        photoElement.classList.add("opacity-0");
+
+        // --- PENYESUAIAN KECIL ---
+        // Ganti 300 menjadi 700 agar sesuai dengan 'duration-700' di HTML Anda
+        // Ini akan membuat efek fade-nya terlihat mulus.
+        setTimeout(() => {
+          currentPhoto =
+            (currentPhoto + direction + photos.length) % photos.length;
+          photoElement.src = photos[currentPhoto];
+          photoElement.classList.remove("opacity-0");
+        }, 700); // <-- UBAH INI JADI 700
+      }
     </script>
   </body>
 </html>
